@@ -1,4 +1,10 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {};
-
-export default nextConfig;
+const nextConfig = {
+    reactStrictMode: false,
+    images: {
+      domains: ['static-cdn.jtvnw.net'],
+    },
+  };
+  
+  export default nextConfig;
+  
