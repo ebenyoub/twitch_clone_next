@@ -1,10 +1,14 @@
 import Image from 'next/image';
-import React from 'react';
+import React, { useEffect } from 'react';
 import useFetch from '../utils/useFetch';
+import clsx from 'clsx';
 
 const GameCard = ({ game }: { game: TopStreamsData }): JSX.Element => {
     const imageWithSize = game.box_art_url.replace(/{width}/g, "218").replace(/{height}/g, "278");
     const { data, loading, error } = useFetch(process.env.NEXT_PUBLIC_URL_STREAMS + `game_id=${game.id}`)
+    useEffect(() => {
+        console.log("gameCard", data);
+    })
 
     return (
         <div className="bg-zinc-800 rounded-lg overflow-hidden shadow-lg transition-transform transform hover:scale-105">
@@ -27,9 +31,7 @@ const GameCard = ({ game }: { game: TopStreamsData }): JSX.Element => {
 const GameGrid = ({ games }: { games: TopStreamsData[] | null }): JSX.Element => {
     return (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            {games?.map((game) => (
-                <GameCard key={game.id} game={game} />
-            ))}
+            {games?.map((game) => <GameCard key={game.id} game={game} />)}
         </div>
     );
 };
