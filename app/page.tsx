@@ -3,27 +3,22 @@
 import { useEffect } from "react";
 import useFetch from "./utils/useFetch";
 import { Grid } from "react-loader-spinner";
-import {
-	Card,
-	CardContent,
-	CardDescription,
-	CardFooter,
-	CardTitle,
-} from "@/components/ui/card"
-import Image from "next/image";
-import GameCard from "./_components/GameCard";
 import GameGrid from "./_components/GameCard";
 
 export default function Home() {
-	const { data, loading } = useFetch<TopStreamsData[] | null>(process.env.NEXT_PUBLIC_URL_TOP_STREAMS);
+	const { data, loading, error } = useFetch<TopStreamsData[] | null>(process.env.NEXT_PUBLIC_URL_TOP_STREAMS);
 
 	useEffect(() => {
 		console.log("Top", data);
 	}, [data])
 
+	if (error) {
+		return <div>Error !</div>
+	}
+
 	if (loading) {
 		return (
-			<div className="flex h-full justify-center items-center">
+			<div className="h-full flex justify-center items-center">
 				<Grid
 					visible={true}
 					height="80"

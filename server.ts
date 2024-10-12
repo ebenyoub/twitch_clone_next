@@ -10,8 +10,8 @@ const handle = app.getRequestHandler();
 
 app.prepare().then(() => {
     https.createServer({
-        key: fs.readFileSync('./key.pem'),
-        cert: fs.readFileSync('./cert.pem'),
+        key: fs.readFileSync('./localhost-key.pem'),
+        cert: fs.readFileSync('./localhost.pem'),
     }, (req: http.IncomingMessage, res: http.ServerResponse) => { // Utiliser http.IncomingMessage et http.ServerResponse
         handle(req, res);
     }).listen(3000, (err?: Error) => { // Prendre un argument err facultatif

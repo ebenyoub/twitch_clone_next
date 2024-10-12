@@ -34,7 +34,7 @@ const TopStreams = (): JSX.Element => {
         if (streamsData && usersData) {
             const combinedStreams: CombinedStreamData[] = streamsData.map(streamData => {
                 const user = usersData.find(userData => userData.id === streamData.user_id);
-                // console.log("user", user);
+
                 return {
                     id: user?.id,
                     display_name: user?.display_name,
@@ -46,8 +46,6 @@ const TopStreams = (): JSX.Element => {
             }).sort((a, b) => b.viewer_count - a.viewer_count)
 
             setTopStreams(combinedStreams);
-            // console.log("Streams : ", streamsData);
-            // console.log("Users : ", usersData);
         }
     }, [streamsData, usersData])
 
@@ -100,7 +98,7 @@ const TopStreams = (): JSX.Element => {
                                     <TooltipContent side='right' sideOffset={10} className="bg-zinc-800">
                                         <div className='flex flex-col gap-1'>
                                             <p className='text-purple-500 font-bold'>{`${stream.display_name} • ${stream.game_name}`}</p>
-                                            <p className='max-w-[300px] line-clamp-2'>{stream.description}</p>
+                                            <p className='max-w-[300px] line-clamp-2 text-foreground'>{stream.description}</p>
                                             <div className="flex items-center space-x-2">
                                                 <span className="inline-block h-2.5 w-2.5 bg-red-500 rounded-full"></span>
                                                 <span className="font-medium text-white">{`Live | ${formatViews(stream.viewer_count)} spectateurs`}</span>

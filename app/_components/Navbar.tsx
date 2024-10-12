@@ -26,7 +26,7 @@ const Navbar: React.FC<NavbarProps> = ({ className }) => {
 
   return (
     <nav
-      className={cn('flex flex-row p-2 w-full h-16 justify-between items-center bg-foreground shadow-lg', className)}
+      className={cn('flex flex-row p-4 w-full h-16 justify-between items-center bg-background text-foreground shadow-lg', className)}
       aria-label="Main Navigation"
     >
       <Link href={"/"} aria-label="HomePage">

@@ -15,14 +15,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="h-full">
+    <html lang="en" className="dark h-full">
       <body className="h-full flex flex-col">
-        {/* Navbar fixée en haut */}
         <Navbar className="fixed top-0 left-0 right-0 z-10" />
-
         <div className="flex h-full pt-16">
           <Sidebar className="flex-shrink-0" />
-
           <div className="grow overflow-auto">
             <div className="min-h-full flex flex-col">
               <main className="flex-grow">{children}</main>
