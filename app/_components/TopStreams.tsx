@@ -9,12 +9,12 @@ import { formatViews } from '@/lib/utils';
 import CustomTooltip from './CustumTooltip';
 
 const TopStreams = (): JSX.Element => {
-    const [topStreams, setTopStreams] = useState<CombinedStreamData[] | undefined>();
+    const [topStreams, setTopStreams] = useState<CombinedStreamData[]>();
     const [usersURL, setUsersURL] = useState<string>('');
     const [more, setMore] = useState<boolean>(false);
     const [listSize, setListSize] = useState<number>(6);
 
-    const { data: streamsData, loading: streamsLoading, error: streamsError } = useFetch<StreamData[]>(process.env.NEXT_PUBLIC_URL_STREAMS, true);
+    const { data: streamsData, loading: streamsLoading, error: streamsError } = useFetch<StreamData>(process.env.NEXT_PUBLIC_URL_STREAMS, true);
 
     useEffect(() => {
         if (streamsData) {
@@ -23,7 +23,7 @@ const TopStreams = (): JSX.Element => {
         }
     }, [streamsData])
 
-    const { data: usersData, loading: usersLoading, error: usersError } = useFetch<UserData[]>(usersURL, true);
+    const { data: usersData, loading: usersLoading, error: usersError } = useFetch<UserData>(usersURL, true);
 
     useEffect(() => {
         if (streamsData && usersData) {

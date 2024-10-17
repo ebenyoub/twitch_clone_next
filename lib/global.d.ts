@@ -5,9 +5,10 @@
 /********************************** */
 
 interface FetchResponse<T> {
-    data: T | null;
+    data: T;
     error: string | null;
     loading: boolean;
+    cursor: string | null;
 }
 
 /********************************** */

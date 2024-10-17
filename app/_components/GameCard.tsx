@@ -1,21 +1,17 @@
 import Image from 'next/image';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import useFetch from '../utils/useFetch';
 import { formatViews } from '@/lib/utils';
 
 const GameCard = ({ game }: { game: TopStreamsData }): JSX.Element => {
     const imageWithSize = game.box_art_url.replace(/{width}/g, "218").replace(/{height}/g, "278");
-    const [allStreamsByGame, setAllStreamsByGame] = useState<StreamData[] | null>(null);
-    const [totalViewers, setTotalViewers] = useState<number>(0);
+    // const [allStreamsByGame, setAllStreamsByGame] = useState<StreamData[] | null>(null);
+    // const [totalViewers, setTotalViewers] = useState<number>(0);
 
+    const { data, error, loading } = useFetch<StreamData>(process.env.NEXT_PUBLIC_URL_STREAMS + '?' + `game_id=${game.id}&first=100&type=live`)
     
-    useEffect(() => {
-        do {
-            
-        }
-        const { data, loading, error } = useFetch<StreamData[]>(process.env.NEXT_PUBLIC_URL_STREAMS + '?' + `game_id=${game.id}&first=100`)
-        console.log('gameData', data);
-    }, [data])
+    
+    console.log('gameData', data);
 
     
     const totalViewers = data ? data?.reduce((acc, curr) => acc + curr.viewer_count, 0) : 0;
