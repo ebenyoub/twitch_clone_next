@@ -1,3 +1,5 @@
+'use client'
+
 import { useState, useEffect } from "react";
 import axios from "axios";
 import getAccessToken from "./getAccessToken";
@@ -9,6 +11,7 @@ const useFetch = <T>(url: string, refresh: boolean = false): FetchResponse<T> =>
 
     
     useEffect(() => {
+        console.log(url);
         const fetchData = async () => {
             const accessToken = getAccessToken();
             

@@ -5,13 +5,8 @@ import { useEffect, useState } from "react";
 import AvatarWithSize from './AvatarWithSize';
 import { Circles } from 'react-loader-spinner';
 import { FileWarning, Minus, Plus } from 'lucide-react';
-import {
-    Tooltip,
-    TooltipContent,
-    TooltipProvider,
-    TooltipTrigger,
-} from "@/components/ui/tooltip"
 import { formatViews } from '@/lib/utils';
+import CustomTooltip from './CustumTooltip';
 
 const TopStreams = (): JSX.Element => {
     const [topStreams, setTopStreams] = useState<CombinedStreamData[] | undefined>();
@@ -62,16 +57,15 @@ const TopStreams = (): JSX.Element => {
                         <FileWarning key={index} />
                     </li>
                 ))}
-
             </ul>
         )
     }
 
-    return (
-        <div>
-            <ul className='flex flex-col gap-4'>
-                {streamsLoading || usersLoading ? (
-                    Array.from({ length: listSize }).map((_, index) => (
+    if (streamsLoading || usersLoading) {
+        return (
+            <div>
+                <ul className='flex flex-col gap-4'>
+                    {Array.from({ length: listSize }).map((_, index) => (
                         <li className="flex justify-center items-center size-[40px] text-purple-600" key={index}>
                             <Circles
                                 visible={true}
@@ -83,34 +77,36 @@ const TopStreams = (): JSX.Element => {
                                 wrapperClass=""
                             />
                         </li>
-                    ))
-                ) : (
-                    topStreams &&
+                    ))}
+                </ul>
+            </div>
+        )
+    }
+
+    return (
+        <div>
+            <ul className='flex flex-col gap-4 overflow-hidden'>
+                {topStreams &&
                     topStreams.slice(0, listSize).map((stream, index) => {
                         const { profile_image_url } = stream;
 
                         return (
-                            <TooltipProvider key={index} delayDuration={0}>
-                                <Tooltip>
-                                    <TooltipTrigger>
-                                        <AvatarWithSize img={profile_image_url} />
-                                    </TooltipTrigger>
-                                    <TooltipContent side='right' sideOffset={10} className="bg-zinc-800">
-                                        <div className='flex flex-col gap-1'>
-                                            <p className='text-purple-500 font-bold'>{`${stream.display_name} • ${stream.game_name}`}</p>
-                                            <p className='max-w-[300px] line-clamp-2 text-foreground'>{stream.description}</p>
-                                            <div className="flex items-center space-x-2">
-                                                <span className="inline-block h-2.5 w-2.5 bg-red-500 rounded-full"></span>
-                                                <span className="font-medium text-white">{`Live | ${formatViews(stream.viewer_count)} spectateurs`}</span>
-                                            </div>
-                                        </div>
-                                    </TooltipContent>
-                                </Tooltip>
-                            </TooltipProvider>
-
+                            <CustomTooltip
+                                key={index}
+                                trigger={<AvatarWithSize img={profile_image_url} w-full />}
+                            >
+                                <div className='flex flex-col gap-1'>
+                                    <p className='text-purple-500 font-bold'>{`${stream.display_name} • ${stream.game_name}`}</p>
+                                    <p className='max-w-[300px] line-clamp-2 text-foreground'>{stream.description}</p>
+                                    <div className="flex items-center space-x-2">
+                                        <span className="inline-block h-2.5 w-2.5 bg-red-500 rounded-full"></span>
+                                        <span className="font-medium text-white">{`Live | ${formatViews(stream.viewer_count)} spectateurs`}</span>
+                                    </div>
+                                </div>
+                            </CustomTooltip>
                         )
                     })
-                )}
+                }
             </ul>
             <div className="flex mt-4 justify-center cursor-pointer text-purple-600" onClick={handleMore}>
                 {more ? <Minus /> : <Plus />}

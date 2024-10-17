@@ -21,7 +21,7 @@ export default function RootLayout({
         <div className="flex h-full pt-16">
           <Sidebar className="flex-shrink-0" />
           <div className="grow overflow-auto">
-            <div className="min-h-full flex flex-col">
+            <div className="min-h-full h-full flex flex-col">
               <main className="flex-grow">{children}</main>
               <Footer />
             </div>

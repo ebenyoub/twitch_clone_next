@@ -1,21 +1,31 @@
 import Image from 'next/image';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import useFetch from '../utils/useFetch';
+import { formatViews } from '@/lib/utils';
 
 const GameCard = ({ game }: { game: TopStreamsData }): JSX.Element => {
     const imageWithSize = game.box_art_url.replace(/{width}/g, "218").replace(/{height}/g, "278");
-    const { data, loading, error } = useFetch(process.env.NEXT_PUBLIC_URL_STREAMS + '?' + `game_id=${game.igdb_id}`)
+    const [allStreamsByGame, setAllStreamsByGame] = useState<StreamData[] | null>(null);
+    const [totalViewers, setTotalViewers] = useState<number>(0);
 
+    
     useEffect(() => {
-        console.log(data);
+        do {
+            
+        }
+        const { data, loading, error } = useFetch<StreamData[]>(process.env.NEXT_PUBLIC_URL_STREAMS + '?' + `game_id=${game.id}&first=100`)
+        console.log('gameData', data);
     }, [data])
 
+    
+    const totalViewers = data ? data?.reduce((acc, curr) => acc + curr.viewer_count, 0) : 0;
+
     if (error) {
-        return <div>Error</div>
+        return <div className='flex justify-center items-center'>Error</div>
     }
 
     if (loading) {
-        return <div>Chargement...</div>
+        return <div className='flex justify-center items-center'>Chargement...</div>
     }
 
     return (
@@ -30,7 +40,7 @@ const GameCard = ({ game }: { game: TopStreamsData }): JSX.Element => {
             />
             <div className='p-2'>
                 <h2 className="text-white mt-2 max-w-full line-clamp-1">{game.name}</h2>
-
+                <span className='text-foreground'>{`${formatViews(totalViewers)} spectateurs`}</span>
             </div>
         </div>
     );
@@ -38,7 +48,7 @@ const GameCard = ({ game }: { game: TopStreamsData }): JSX.Element => {
 
 const GameGrid = ({ games }: { games: TopStreamsData[] | null }): JSX.Element => {
     return (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
             {games?.map((game) => <GameCard key={game.id} game={game} />)}
         </div>
     );
